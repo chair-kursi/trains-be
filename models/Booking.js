@@ -5,8 +5,7 @@ const passengerSchema = mongoose.Schema({
         type: String,
         required: true
     }, 
-    booking :{
-        type: Array,
+    booking :{ 
         trainNumber: {
             type: Number,
             required: true

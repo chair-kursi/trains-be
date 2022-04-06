@@ -8,8 +8,9 @@ router.post("/booking", async (req, res)=>{
         const booking = new Booking(req.body);
         const passengerName = req.body.passengerName; 
         const noOfBookings = await Booking.find({passengerName: passengerName});
-        if(noOfBookings.length==6){
+        if(noOfBookings.length>=6){
             res.send("Already done 6 Bookings!!");
+            return;
         }
         const booked = await booking.save();
         res.json({booked: booked});
@@ -25,12 +26,12 @@ router.get("/passenger", async (req, res)=>{
         var passName = passengerNames.find(ele=>{  
             return ele===obj.passengerName;
         });   
-        if(passName)
-        return null;
-        passengerNames = [...passengerNames, obj.passengerName];
-        console.log(passengerNames + passName);
-        return obj.passengerName;
+        if(!passName) {
+            passengerNames = [...passengerNames, obj.passengerName]; 
+            return obj.passengerName;
+        }
     });
+    passengerNames = passengerNames.filter((ele)=>{return ele!==null}).map(ele=>{return ele});
     res.json({passengerNames});
 }); 
 

@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express'); 
 const router = express.Router();
 const Trains = require('../models/Trains');
 
@@ -15,7 +15,12 @@ router.post("/trains", async (req, res) => {
 router.get("/trains", async (req, res)=>{
     const trains = await Trains.find({});
     res.json({trains: trains});
-})
+});
+
+router.get("/stops/:trainNo", async (req, res)=>{
+    var stops = await Trains.findOne({number: req.params.trainNo}); 
+    res.json(stops.stops);    
+});
 
 module.exports = router;
 
